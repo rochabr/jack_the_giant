@@ -25,7 +25,15 @@ public class CloudSpawner : MonoBehaviour {
 
 		SetMinAndMaxX ();
 		CreateClouds ();
+
+		player = GameObject.Find ("Player");
+
 	}
+
+	void Start () {
+		PositionPlayer ();
+	}
+		
 
 	void SetMinAndMaxX(){
 		Vector3 bounds = Camera.main.ScreenToWorldPoint (new Vector3 (Screen.width, Screen.height, 0));
@@ -70,6 +78,41 @@ public class CloudSpawner : MonoBehaviour {
 			clouds [i].transform.position = temp;
 
 			positionY -= distanceBetweenCLouds;
+		}
+	}
+
+	void PositionPlayer(){
+		GameObject[] darkClouds = GameObject.FindGameObjectsWithTag ("Deadly");
+		GameObject[] cloudsInGame = GameObject.FindGameObjectsWithTag ("Cloud");
+
+		GameObject firstCloud = null;
+
+		//lops the dark clouds array and checks if any of them is in the first position of the game,
+		//if it is, changes its position with the first white cloud
+		for (int i = 0; i < darkClouds.Length; i++) {
+			if (darkClouds [i].transform.position.y == 0f) {
+				Vector3 temporaryPosition = darkClouds [i].transform.position;
+					
+				darkClouds [i].transform.position = new Vector3 (cloudsInGame [0].transform.position.x,
+					cloudsInGame [0].transform.position.y, 
+					cloudsInGame [0].transform.position.z);
+
+				cloudsInGame [0].transform.position = temporaryPosition;
+			}
+		}
+
+		//position player on the first cloud
+		for (int i = 0; i < clouds.Length; i++) {
+			if (clouds [i].transform.position.y == 0f) {
+				firstCloud = clouds [i];
+				break;
+			}
+		}
+
+		if (firstCloud != null) {
+			player.transform.position = new Vector3(firstCloud.transform.position.x, 
+				(firstCloud.transform.position.y + player.GetComponent<SpriteRenderer>().bounds.size.y / 2) , 
+				firstCloud.transform.position.z);
 		}
 	}
 
