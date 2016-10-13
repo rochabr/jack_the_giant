@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Player : MonoBehaviour {
 
-	public float speed = 9.0f;
+	public float speed = 5.0f;
 	public float maxVelocity = 4.0f;
 
 	//[SerializeField]
@@ -39,10 +39,26 @@ public class Player : MonoBehaviour {
 			if (velocity < maxVelocity) {
 				forceX = speed;
 			}
+
+			//changing sprite direction
+			Vector3 tempScale = transform.localScale;
+			tempScale.x = Mathf.Abs(transform.localScale.x);
+			transform.localScale = tempScale;
+
+			animator.SetBool ("Walk", true);
 		} else if (direction < 0) {
 			if (velocity < maxVelocity) {
 				forceX = -speed;
 			}
+
+			//changing sprite direction
+			Vector3 tempScale = transform.localScale;
+			tempScale.x = -1 * Mathf.Abs(transform.localScale.x);
+			transform.localScale = tempScale;
+
+			animator.SetBool ("Walk", true);
+		} else {
+			animator.SetBool ("Walk", false);
 		}
 
 		rigidBody.AddForce(new Vector2(forceX, 0));
