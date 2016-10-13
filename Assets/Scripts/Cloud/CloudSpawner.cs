@@ -55,8 +55,8 @@ public class CloudSpawner : MonoBehaviour {
 
 		float positionY = 0f;
 
-		for (int i = 0; i < clouds.Length; i++) {
-			Vector3 temp = clouds [i].transform.position;
+		foreach (GameObject cloud in clouds) {
+			Vector3 temp = cloud.transform.position;
 			temp.y = positionY;
 			temp.x = Random.Range (minX, maxX);
 
@@ -75,7 +75,7 @@ public class CloudSpawner : MonoBehaviour {
 			}
 
 			lastCloudPositionY = temp.y;
-			clouds [i].transform.position = temp;
+			cloud.transform.position = temp;
 
 			positionY -= distanceBetweenCLouds;
 		}
@@ -113,6 +113,43 @@ public class CloudSpawner : MonoBehaviour {
 			player.transform.position = new Vector3(firstCloud.transform.position.x, 
 				(firstCloud.transform.position.y + player.GetComponent<SpriteRenderer>().bounds.size.y / 2) , 
 				firstCloud.transform.position.z);
+		}
+	}
+
+	void OnTriggerEnter2D(Collider2D collider){
+		if (collider.tag == "Cloud" || collider.tag == "Deadly") {
+			if (collider.transform.position.y == lastCloudPositionY) {
+				Shuffle (clouds);
+				Shuffle (collectables);
+
+				Vector3 tempPosition = collider.transform.position;
+
+				foreach (GameObject cloud in clouds) {
+					if (!cloud.activeInHierarchy) {
+						if (controlX == 0) {
+							tempPosition.x = Random.Range (0.0f, maxX);
+							controlX = 1;
+						} else if (controlX == 1) {
+							tempPosition.x = Random.Range (0.0f, minX);
+							controlX = 2;
+						} else if (controlX == 2) {
+							tempPosition.x = Random.Range (1.0f, maxX);
+							controlX = 3;
+						} else if (controlX == 3) {
+							tempPosition.x = Random.Range (-1.0f, minX);
+							controlX = 0;
+						}
+
+						tempPosition.y -= distanceBetweenCLouds;
+						lastCloudPositionY = tempPosition.y;
+
+						cloud.transform.position = tempPosition;
+						cloud.SetActive (true);
+					}
+
+				}
+
+			}	
 		}
 	}
 
