@@ -28,6 +28,11 @@ public class CloudSpawner : MonoBehaviour {
 
 		player = GameObject.Find ("Player");
 
+		//deactivate collactables
+		foreach (GameObject col in collectables) {
+			col.SetActive (false);
+		}
+
 	}
 
 	void Start () {
@@ -41,11 +46,11 @@ public class CloudSpawner : MonoBehaviour {
 		minX = -bounds.x + 0.5f;
 	}
 
-	void Shuffle(GameObject[] cloudArray){
-		for (int i = 0; i < cloudArray.Length; i++) {
-			GameObject tempCloud = cloudArray [i];
-			int random = Random.Range (i, cloudArray.Length);
-			cloudArray [i] = cloudArray [random];
+	void Shuffle(GameObject[] array){
+		for (int i = 0; i < array.Length; i++) {
+			GameObject tempCloud = array [i];
+			int random = Random.Range (i, array.Length);
+			array [i] = array [random];
 			clouds [random] = tempCloud;
 		}
 	}
@@ -120,7 +125,7 @@ public class CloudSpawner : MonoBehaviour {
 		if (collider.tag == "Cloud" || collider.tag == "Deadly") {
 			if (collider.transform.position.y == lastCloudPositionY) {
 				Shuffle (clouds);
-				Shuffle (collectables);
+				//Shuffle (collectables);
 
 				Vector3 tempPosition = collider.transform.position;
 
@@ -145,10 +150,24 @@ public class CloudSpawner : MonoBehaviour {
 
 						cloud.transform.position = tempPosition;
 						cloud.SetActive (true);
+
+						int random = Random.Range (0, collectables.Length);
+						if (cloud.tag != "Deadly" && !collectables[random].activeInHierarchy) {
+							Vector3 temp = cloud.transform.position;
+							temp.y += 0.7f;
+
+							if (collectables [random].tag == "Life") {
+								if (PlayerScore.lifeCount < 2) {
+									collectables [random].transform.position = temp;
+									collectables [random].SetActive (true);
+								}
+							} else {
+								collectables [random].transform.position = temp;
+								collectables [random].SetActive (true);
+							}
+						}
 					}
-
 				}
-
 			}	
 		}
 	}
