@@ -74,23 +74,25 @@ public class PlayerScore : MonoBehaviour {
 			collider.gameObject.SetActive (false);
 			break;
 		case "Bounds":
-			cameraScript.moveCamera = false;
-			countScore = false;
-
-			lifeCount--;
-
-			GameplayController.instance.SetLife (lifeCount);
-			transform.position = new Vector3 (500, 500, 0);
+			HandleDeath ();
 			break;
 		case "Deadly":
+			HandleDeath ();
+			break;
+		}
+	}
+
+	void HandleDeath(){
+		lifeCount--;
+		GameplayController.instance.SetLife (lifeCount);
+
+		if (lifeCount < 1) {
 			cameraScript.moveCamera = false;
 			countScore = false;
 
-			lifeCount--;
-
-			GameplayController.instance.SetLife (lifeCount);
 			transform.position = new Vector3 (500, 500, 0);
-			break;
+			GameplayController.instance.ShowGameOverPanel (scoreCount, coinCount);
+
 		}
 	}
 }
