@@ -15,7 +15,7 @@ public class GameplayController : MonoBehaviour {
 	[SerializeField]
 	private GameObject pausePanel;
 
-	private static GameplayController instance;
+	public static GameplayController instance;
 
 	void Awake(){
 		CreateInstance ();
@@ -40,5 +40,17 @@ public class GameplayController : MonoBehaviour {
 	public void QuitGame(){
 		Time.timeScale = 1;
 		SceneManager.LoadScene("MainMenu");
+	}
+
+	public void SetScore(int score){
+		scoreText.text = "x" + score;
+	}
+
+	public void SetLife(int life){
+		lifeText.text = "x" + life;
+	}
+
+	public void SetCoin(int coin){
+		coinText.text = "x" + coin;
 	}
 }

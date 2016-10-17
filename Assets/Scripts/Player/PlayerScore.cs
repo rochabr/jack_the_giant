@@ -27,19 +27,29 @@ public class PlayerScore : MonoBehaviour {
 		//setting previous position to be the current position
 		lastPosition = transform.position;
 		countScore = true;
+
+		lifeCount = 1;
+		scoreCount = 0;
+		coinCount = 0;
+
+		GameplayController.instance.SetCoin (coinCount);
+		GameplayController.instance.SetLife (lifeCount);
+		GameplayController.instance.SetScore (scoreCount);
 	}
 	
 	// Update is called once per frame
 	void Update () {
-	
+		CountScore ();
 	}
 
-	void CoutnScore(){
+	void CountScore(){
 		if (countScore){
 			if (transform.position.y < lastPosition.y) {
-				coinCount++;
+				scoreCount++;
 			}
 			lastPosition = transform.position;
+
+			GameplayController.instance.SetScore (scoreCount);
 		}
 	}
 
@@ -49,12 +59,16 @@ public class PlayerScore : MonoBehaviour {
 			coinCount++;
 			scoreCount += 200;
 
+			GameplayController.instance.SetCoin (coinCount);
+
 			AudioSource.PlayClipAtPoint (coinClip, transform.position);
 			collider.gameObject.SetActive (false);
 			break;
 		case "Life":
 			lifeCount++;
 			scoreCount += 500;
+
+			GameplayController.instance.SetLife (lifeCount);
 
 			AudioSource.PlayClipAtPoint (lifeClip, transform.position);
 			collider.gameObject.SetActive (false);
@@ -64,6 +78,8 @@ public class PlayerScore : MonoBehaviour {
 			countScore = false;
 
 			lifeCount--;
+
+			GameplayController.instance.SetLife (lifeCount);
 			transform.position = new Vector3 (500, 500, 0);
 			break;
 		case "Deadly":
@@ -71,6 +87,8 @@ public class PlayerScore : MonoBehaviour {
 			countScore = false;
 
 			lifeCount--;
+
+			GameplayController.instance.SetLife (lifeCount);
 			transform.position = new Vector3 (500, 500, 0);
 			break;
 		}
