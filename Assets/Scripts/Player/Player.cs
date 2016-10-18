@@ -63,4 +63,6 @@ public class Player : MonoBehaviour {
 
 		rigidBody.AddForce(new Vector2(forceX, 0));
 	}
+
+
 }
