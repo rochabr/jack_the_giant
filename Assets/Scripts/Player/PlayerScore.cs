@@ -28,10 +28,6 @@ public class PlayerScore : MonoBehaviour {
 		lastPosition = transform.position;
 		countScore = true;
 
-		lifeCount = 1;
-		scoreCount = 0;
-		coinCount = 0;
-
 		GameplayController.instance.SetCoin (coinCount);
 		GameplayController.instance.SetLife (lifeCount);
 		GameplayController.instance.SetScore (scoreCount);
@@ -83,16 +79,12 @@ public class PlayerScore : MonoBehaviour {
 	}
 
 	void HandleDeath(){
+		cameraScript.moveCamera = false;
+		countScore = false;
+
 		lifeCount--;
-		GameplayController.instance.SetLife (lifeCount);
-
-		if (lifeCount < 1) {
-			cameraScript.moveCamera = false;
-			countScore = false;
-
-			transform.position = new Vector3 (500, 500, 0);
-			GameplayController.instance.ShowGameOverPanel (scoreCount, coinCount);
-
-		}
+		transform.position = new Vector3 (500, 500, 0);
+		//GameplayController.instance.ShowGameOverPanel (scoreCount, coinCount);
+		GameManager.instance.CheckGameStatus(scoreCount, lifeCount, coinCount);
 	}
 }

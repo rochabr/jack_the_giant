@@ -15,6 +15,7 @@ public class SceneController : MonoBehaviour {
 	}
 
 	public void StartGame(){
+		GameManager.instance.gameStartedFromMenu = true;
 		SceneManager.LoadScene ("GamePlay");
 	}
 

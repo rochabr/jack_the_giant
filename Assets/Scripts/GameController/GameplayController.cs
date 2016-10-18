@@ -54,6 +54,15 @@ public class GameplayController : MonoBehaviour {
 		SceneManager.LoadScene ("MainMenu");
 	}
 
+	public void RestartGame(){
+		StartCoroutine (Restart ());
+	}
+
+	IEnumerator Restart(){
+		yield return new WaitForSeconds (1f);
+		SceneManager.LoadScene ("GamePlay");
+	}
+
 	public void PauseGame(){
 		Time.timeScale = 0;
 		pausePanel.SetActive (true);
