@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Player : MonoBehaviour {
 
-	public float speed = 5.0f;
+	/*public float speed = 5.0f;
 	public float maxVelocity = 4.0f;
 
 	//[SerializeField]
@@ -62,7 +62,7 @@ public class Player : MonoBehaviour {
 		}
 
 		rigidBody.AddForce(new Vector2(forceX, 0));
-	}
+	}*/
 
 
 }
