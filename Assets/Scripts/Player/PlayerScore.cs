@@ -7,6 +7,8 @@ public class PlayerScore : MonoBehaviour {
 	private AudioClip coinClip;
 	[SerializeField]
 	private AudioClip lifeClip;
+	[SerializeField]
+	private AudioClip deathClip;
 
 	private CameraScript cameraScript;
 	private Vector3 lastPosition;
@@ -81,6 +83,8 @@ public class PlayerScore : MonoBehaviour {
 	void HandleDeath(){
 		cameraScript.moveCamera = false;
 		countScore = false;
+
+		AudioSource.PlayClipAtPoint (deathClip, transform.position);
 
 		lifeCount--;
 		transform.position = new Vector3 (500, 500, 0);
