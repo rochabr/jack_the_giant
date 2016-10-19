@@ -73,6 +73,41 @@ public class GameManager : MonoBehaviour {
 
 	public void CheckGameStatus(int score, int lifeScore, int coinScore){
 		if (lifeScore < 0) {
+
+			//save highscore and coin score
+			switch (GamePreferences.GetDifficultyState ()) {
+			case StaticProperties.EASY_MODE:
+				int highScore = GamePreferences.GetEasyDifficultyHighScore ();
+				int coinHighScore = GamePreferences.GetEasyDifficultyCoinScore ();
+
+				if (score > highScore)
+					GamePreferences.SetEasyDifficultyHighScore (score);
+
+				if (coinScore > coinHighScore)
+					GamePreferences.SetEasyDifficultyCoinScore (coinScore);
+				break;
+			case StaticProperties.MEDIUM_MODE:
+				highScore = GamePreferences.GetMediumDifficultyHighScore ();
+				coinHighScore = GamePreferences.GetMediumDifficultyCoinScore ();
+
+				if (score > highScore)
+					GamePreferences.SetMediumDifficultyHighScore (score);
+
+				if (coinScore > coinHighScore)
+					GamePreferences.SetMediumDifficultyCoinScore (coinScore);
+				break;
+			case StaticProperties.HARD_MODE:
+				highScore = GamePreferences.GetHardDifficultyHighScore ();
+				coinHighScore = GamePreferences.GetHardDifficultyCoinScore ();
+
+				if (score > highScore)
+					GamePreferences.SetHardDifficultyHighScore (score);
+
+				if (coinScore > coinHighScore)
+					GamePreferences.SetHardDifficultyCoinScore (coinScore);
+				break;
+			}
+
 			gameRestarted = false;
 			gameStartedFromMenu = false;
 
@@ -97,9 +132,9 @@ public class GameManager : MonoBehaviour {
 	void Start(){
 		InitializePreferences ();
 	}
-	
+
 	// Update is called once per frame
 	void Update () {
-	
+
 	}
 }
