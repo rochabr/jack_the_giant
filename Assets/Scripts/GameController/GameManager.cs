@@ -25,7 +25,28 @@ public class GameManager : MonoBehaviour {
 			instance = this;
 			DontDestroyOnLoad (gameObject);
 		}
+	}
 
+	void InitializePreferences(){
+		if (!PlayerPrefs.HasKey ("GameInitialized")) {
+			GamePreferences.SetDifficultyState (StaticProperties.MEDIUM_MODE);
+
+			//GamePreferences.SetEasyDifficultyState (0);
+			GamePreferences.SetEasyDifficultyHighScore (0);
+			GamePreferences.SetEasyDifficultyCoinScore (0);
+
+			//GamePreferences.SetMediumDifficultyState (1);
+			GamePreferences.SetMediumDifficultyHighScore (0);
+			GamePreferences.SetMediumDifficultyCoinScore (0);
+
+			//GamePreferences.SetHardDifficultyState (0);
+			GamePreferences.SetHardDifficultyHighScore (0);
+			GamePreferences.SetHardDifficultyCoinScore (0);
+
+			GamePreferences.SetMusicState (0);
+
+			PlayerPrefs.SetInt("GameInitialized", 1);
+		}
 	}
 
 	void OnLevelWasLoaded(){
@@ -71,6 +92,10 @@ public class GameManager : MonoBehaviour {
 	// Use this for initialization
 	void Awake () {
 		MakeSingleton ();
+	}
+
+	void Start(){
+		InitializePreferences ();
 	}
 	
 	// Update is called once per frame
